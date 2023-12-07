@@ -5,10 +5,13 @@ on:
     inputs:
       terraform_operations:
         description: "Terraform: apply or destroy"
+        required: true
+        default: plan
         type: choice
         options:
           - apply
           - destroy
+          - plan
 
   push:
     branches:
@@ -48,12 +51,15 @@ jobs:
         run: terraform validate
 
       - name: Terraform plan
+        id: plan
         run: terraform plan
+        if: ${{ github.event.inputs.terraform_operations == 'plan' }}
 
       - name: Terraform apply
+        id: apply
         run: terraform apply -auto-approve
-        if: ${{ github.event.inputs.terraform_operations == 'apply' }}
+        if: ${{ github.event.inputs.terraform_operations == 'apply' }} && success()
 
       - name: Terraform destroy
         run: terraform destroy -auto-approve
-        if: ${{ github.event.inputs.terraform_operations == 'destroy' }}
+        if: ${{ github.event.inputs.terraform_operations == 'destroy' }} && success()
