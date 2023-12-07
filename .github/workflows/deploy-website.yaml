@@ -1,6 +1,15 @@
 name: Deploy website
 
 on:
+  workflow_dispatch:
+    inputs:
+      terraform_operations:
+        description: "Terraform: apply or destroy"
+        type: choice
+        options:
+          - apply
+          - destroy
+
   push:
     branches:
       - main
@@ -41,5 +50,10 @@ jobs:
       - name: Terraform plan
         run: terraform plan
 
-      #- name: Terraform apply
-      #run: terraform apply -auto-approve
+      - name: Terraform apply
+        run: terraform apply -auto-approve
+        if: ${{ github.event.inputs.terraform_operations == 'apply' }}
+
+      - name: Terraform destroy
+        run: terraform destroy -auto-approve
+        if: ${{ github.event.inputs.terraform_operations == 'destroy' }}
