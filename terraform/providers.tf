@@ -6,10 +6,10 @@ terraform {
     }
   }
   backend "s3" {
-    bucket         = var.bucket_name
-    key            = var.bucket_key
-    dynamodb_table = var.dynamodb_table
-    region         = var.region
+    bucket         = "dynamic-web-app-state-lock"
+    key            = "backend/dynamic-website.tfstate"
+    dynamodb_table = "terraform-state-lock"
+    region         = "us-east-1"
   }
 }
 
