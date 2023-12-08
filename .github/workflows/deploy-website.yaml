@@ -1,18 +1,6 @@
 name: Deploy website
 
 on:
-  workflow_dispatch:
-    inputs:
-      terraform_operations:
-        description: "Terraform: apply or destroy"
-        required: true
-        default: "plan"
-        type: choice
-        options:
-          - apply
-          - destroy
-          - plan
-
   push:
     branches:
       - main
@@ -66,4 +54,4 @@ jobs:
 
       - name: Terraform destroy
         run: terraform destroy -auto-approve
-        if: steps.apply.outcome == 'success'
+        if: steps.apply.outcome == 'success' && github.ref == 'refs/heads/main' && github.event_name == 'push'
