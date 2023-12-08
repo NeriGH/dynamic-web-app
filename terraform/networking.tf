@@ -1,5 +1,6 @@
 
-# Acceder à la diste des az disponible
+# Acceder à la diste des az disponible 
+#
 data "aws_availability_zones" "available" {}
 
 locals {
