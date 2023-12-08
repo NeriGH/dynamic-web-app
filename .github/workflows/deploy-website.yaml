@@ -16,6 +16,11 @@ on:
   push:
     branches:
       - main
+      - stage
+      
+  pull_request:
+    branches:
+      - main
 
 jobs:
   terraform:
@@ -52,14 +57,13 @@ jobs:
 
       - name: Terraform plan
         id: plan
-        run: terraform plan
-        if: ${{ github.event.inputs.terraform_operations == 'plan' }}
+        run: terraform plan -no-color -input=false -out planfile
 
       - name: Terraform apply
         id: apply
         run: terraform apply -auto-approve
-        if: ${{ github.event.inputs.terraform_operations == 'apply' }} && success()
+        if: steps.plan.outcome == 'success'
 
       - name: Terraform destroy
         run: terraform destroy -auto-approve
-        if: ${{ github.event.inputs.terraform_operations == 'destroy' }} && success()
+        if: steps.apply.outcome == 'success'
