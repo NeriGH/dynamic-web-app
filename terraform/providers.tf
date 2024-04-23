@@ -6,7 +6,7 @@ terraform {
     }
   }
   backend "s3" {
-    bucket         = "dynamic-web-app-state-lock"
+    bucket         = "mybucketvdw1"
     key            = "backend/dynamic-website.tfstate"
     dynamodb_table = "terraform-state-lock"
     region         = "us-east-1"
