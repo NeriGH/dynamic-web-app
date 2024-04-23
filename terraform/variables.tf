@@ -1,5 +1,3 @@
-
-
 variable "key_name" {
   type = string 
   default = "project_auth"
@@ -8,7 +6,7 @@ variable "key_name" {
 
 variable "bucket_name" {
   type = string
-  default = "dynamic-web-app-state-lock"
+  default = "mybucketvdw1"
 }
 
 variable "dynamodb_table" {
